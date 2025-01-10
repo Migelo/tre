@@ -16,7 +16,7 @@
             pname = info.name;
             version = info.version;
             src = ./.;
-            cargoSha256 = "sha256-KVZO2rtw7M0qSHH5cKTraRTNOeUfsKGtEauw0nelEiY=";
+            cargoSha256 = "sha256-lgCy48/+2DEtnOOsk76nD7keFaU2R5OyL/jcuZs8bek=";
             lockFile = ./Cargo.lock;
             nativeBuildInputs = [ installShellFiles ];
             preFixup = ''
