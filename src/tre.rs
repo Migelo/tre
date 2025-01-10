@@ -71,7 +71,7 @@ impl From<cli::Interface> for RunOptions {
 
 pub fn run(option: RunOptions) {
     let directories_only = option.directories_only;
-    let max_depth = option.max_depth.unwrap_or(std::usize::MAX);
+    let max_depth = option.max_depth.unwrap_or(usize::MAX);
     let paths: Vec<(String, FileType)> = match option.mode {
         Mode::FollowGitIgnore => {
             path_finders::find_non_git_ignored_paths(&option.root, directories_only, max_depth)

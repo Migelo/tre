@@ -98,7 +98,7 @@ pub fn find_non_git_ignored_paths(
                 return paths_buf
                     .split('\n')
                     .filter_map(|p| {
-                        let path_string = if max_depth != std::usize::MAX {
+                        let path_string = if max_depth != usize::MAX {
                             path::Path::new(p)
                                 .components()
                                 .take(max_depth)

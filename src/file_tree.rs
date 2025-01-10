@@ -157,7 +157,7 @@ impl FileTree {
             // Handle intermidiary directories.
             let mut current_acestor_id = root_id;
             let mut current_ancestor_path = PathBuf::new();
-            current_ancestor_path.push(&root_path);
+            current_ancestor_path.push(root_path);
             for ancestor_name in ancestry {
                 current_ancestor_path.push(ancestor_name);
                 let display_name = to_string(&ancestor_name);
