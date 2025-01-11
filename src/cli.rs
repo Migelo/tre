@@ -1,6 +1,6 @@
-use clap::{ArgEnum, Parser};
+use clap::{ValueEnum, Parser};
 
-#[derive(ArgEnum, Clone, Debug, PartialEq)]
+#[derive(ValueEnum, Clone, Debug, PartialEq)]
 pub enum Coloring {
     Automatic,
     Always,
@@ -22,14 +22,14 @@ impl core::str::FromStr for Coloring {
 #[clap(author, version, about)]
 pub struct Interface {
     /// Print all files and directories, including hidden ones.
-    #[clap(long, short, parse(from_flag))]
+    #[clap(long, short, action)]
     pub all: bool,
     /// Use normal print despite gitignore settings. '-a' has higher priority.
     #[cfg(not(target_os = "windows"))]
-    #[clap(long, short, parse(from_flag))]
+    #[clap(long, short, action)]
     pub simple: bool,
     /// Only list directories in output.
-    #[clap(long, short, parse(from_flag))]
+    #[clap(long, short, action)]
     pub directories: bool,
     /// Create aliases for each displayed result, and add a number in front of file name to
     /// indicate the alias name. For example, a number "42" means an shell alias "e42" has been
@@ -39,7 +39,7 @@ pub struct Interface {
     #[clap(long, short, value_name = "COMMAND")]
     pub editor: Option<Option<String>>,
     /// Output JSON instead of tree diagram.
-    #[clap(long, short, parse(from_flag))]
+    #[clap(long, short, action)]
     pub json: bool,
     /// Limit depth of the tree in output.
     #[clap(long, short)]
@@ -48,7 +48,7 @@ pub struct Interface {
     #[clap(long, short = 'E', value_name = "PATTERN")]
     pub exclude: Vec<String>,
     #[clap(
-        arg_enum,
+        value_enum,
         long,
         short,
         value_name = "WHEN",
