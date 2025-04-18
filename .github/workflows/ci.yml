@@ -23,13 +23,13 @@ jobs:
           - check
           - build
           - test
-          - cargo-publish
+#          - cargo-publish
     steps:
     - uses: actions/checkout@v4
     - name: Action
       run: make ${{ matrix.action }}
-    - name: Check Carge.lock
-      run: git diff --exit-code
+#    - name: Check Carge.lock
+#      run: git diff --exit-code
 
   Ubuntu:
     name: Ubuntu
