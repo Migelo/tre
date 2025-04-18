@@ -1,5 +1,5 @@
-use slab::Slab;
 use indexmap::IndexMap;
+use slab::Slab;
 use std::fs::{self, Metadata};
 use std::path::{Component, Path, PathBuf};
 

@@ -1,4 +1,4 @@
-use clap::{ValueEnum, Parser};
+use clap::{Parser, ValueEnum};
 
 #[derive(ValueEnum, Clone, Debug, PartialEq)]
 pub enum Coloring {
