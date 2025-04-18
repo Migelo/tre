@@ -1,87 +1,81 @@
 // .devcontainer/devcontainer.json
 {
-    "name": "Rust Development", // Descriptive name for your environment
-  
-    // Start with a base image. The mcr.microsoft.com/devcontainers/base:ubuntu
-    // image is a good general-purpose choice that includes Git and other essentials.
-    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  
-    // --- Features ---
-    // Use "Features" to add tools and configurations to the base image.
-    // This is the modern way to configure devcontainers.
-    // Ref: https://containers.dev/features
-    "features": {
-      // Install the Rust toolchain (rustup, cargo, rustc)
-      "ghcr.io/devcontainers/features/rust:1": {
-        // You can specify a specific version or channel (e.g., "stable", "nightly", "1.68")
-        "version": "stable",
-        // Optionally add components like 'clippy' and 'rustfmt' (often included by default)
-        "profile": "default" // 'minimal', 'default', or 'complete'
-        // "components": ["clippy", "rustfmt"], // Usually added by 'default' profile
-        // "targets": ["wasm32-unknown-unknown"] // Add specific compilation targets if needed
-      },
-  
-      // (Optional) Add other useful features
-      // "ghcr.io/devcontainers/features/docker-in-docker:2": {}, // If you need to build/run containers inside
-      // "ghcr.io/devcontainers/features/node:1": {},          // If you have frontend tools
-       "ghcr.io/devcontainers/features/common-utils:2": { // Installs common utilities like curl, git, zsh, etc. (good practice)
-          "installZsh": "true",
-          "configureZshAsDefaultShell": "true", // Use zsh + Oh My Zsh if installed
-          "installOhMyZsh": "true"
-       }
+  "name": "Rust Development", // Descriptive name for your environment
+  // Start with a base image. The mcr.microsoft.com/devcontainers/base:ubuntu
+  // image is a good general-purpose choice that includes Git and other essentials.
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  // --- Features ---
+  // Use "Features" to add tools and configurations to the base image.
+  // This is the modern way to configure devcontainers.
+  // Ref: https://containers.dev/features
+  "features": {
+    // Install the Rust toolchain (rustup, cargo, rustc)
+    "ghcr.io/devcontainers/features/rust:1": {
+      // You can specify a specific version or channel (e.g., "stable", "nightly", "1.68")
+      "version": "stable",
+      // Optionally add components like 'clippy' and 'rustfmt' (often included by default)
+      "profile": "default" // 'minimal', 'default', or 'complete'
+      // "components": ["clippy", "rustfmt"], // Usually added by 'default' profile
+      // "targets": ["wasm32-unknown-unknown"] // Add specific compilation targets if needed
     },
-  
-    // --- VS Code Specific Settings ---
-    "customizations": {
-      "vscode": {
-        // Set *default* container specific settings.json values on container create.
-        "settings": {
-          "editor.formatOnSave": true,
-          "[rust]": {
-            "editor.defaultFormatter": "rust-lang.rust-analyzer",
-            "editor.formatOnSave": true // Ensure format on save is enabled specifically for Rust
-          },
-          // If using Docker-in-Docker feature
-          // "docker.dockerPath": "/usr/local/sdk/docker/bin/docker",
-          // "docker.dockerComposePath": "/usr/local/sdk/docker/docker-compose"
+    // (Optional) Add other useful features
+    // "ghcr.io/devcontainers/features/docker-in-docker:2": {}, // If you need to build/run containers inside
+    // "ghcr.io/devcontainers/features/node:1": {},          // If you have frontend tools
+    "ghcr.io/devcontainers/features/common-utils:2": { // Installs common utilities like curl, git, zsh, etc. (good practice)
+      "installZsh": "true",
+      "configureZshAsDefaultShell": "true", // Use zsh + Oh My Zsh if installed
+      "installOhMyZsh": "true"
+    }
+  },
+  // --- VS Code Specific Settings ---
+  "customizations": {
+    "vscode": {
+      // Set *default* container specific settings.json values on container create.
+      "settings": {
+        "editor.formatOnSave": true,
+        "[rust]": {
+          "editor.defaultFormatter": "rust-lang.rust-analyzer",
+          "editor.formatOnSave": true // Ensure format on save is enabled specifically for Rust
         },
-  
-        // Add the IDs of extensions you want installed when the container is created.
-        "extensions": [
-          "rust-lang.rust-analyzer", // Essential Rust language server
-          "tamasfe.even-better-toml", // Improved TOML file support (for Cargo.toml)
-          "serayuzgur.crates", // Helps manage dependencies in Cargo.toml
-          "vadimcn.vscode-lldb", // Debugger (LLDB)
-          "mutantdino.resourcemonitor" // Handy resource monitor for VS Code status bar
-          // "ms-azuretools.vscode-docker" // If using Docker features
-        ]
-      }
-    },
-  
-    // --- Container Lifecycle ---
-  
-    // Use 'forwardPorts' to make a list of ports inside the container available locally.
-    // Example: Forward port 8000 for a web server
-    "forwardPorts": [8000],
-    // "forwardPorts": [8000, 3000], // Forward multiple ports
-  
-    // Use 'postCreateCommand' to run commands after the container is created.
-    // Useful for installing cargo extensions or project setup.
-    "postCreateCommand": "rustup update && cargo install cargo-watch cargo-edit",
-    // "postCreateCommand": "bash .devcontainer/post-create.sh", // Or run a script
-  
-    // Use 'postAttachCommand' to run commands after VS Code attaches.
-    // "postAttachCommand": {
-    //   "server": "echo 'Attached to Rust Dev Container!'"
-    // }
-  
-    // Comment out connectAsRoot=true to connect as the default non-root user 'vscode'.
-    // "remoteUser": "vscode" // Default non-root user created by base image
-    // "remoteUser": "root" // Connect as root (use with caution)
-  
-    // --- Environment Variables ---
-    // Set environment variables for the container
-    // "remoteEnv": {
-    //   "MY_VARIABLE": "my_value"
-    // }
-  }
+        // If using Docker-in-Docker feature
+        // "docker.dockerPath": "/usr/local/sdk/docker/bin/docker",
+        // "docker.dockerComposePath": "/usr/local/sdk/docker/docker-compose"
+      },
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "rust-lang.rust-analyzer", // Essential Rust language server
+        "tamasfe.even-better-toml", // Improved TOML file support (for Cargo.toml)
+        "fill-labs.dependi", // Helps manage dependencies in Cargo.toml
+        "vadimcn.vscode-lldb", // Debugger (LLDB)
+        "mutantdino.resourcemonitor", // Handy resource monitor for VS Code status bar
+        "github.copilot",
+        "github.copilot-chat",
+        "github.vscode-pull-request-github"
+        // "ms-azuretools.vscode-docker" // If using Docker features
+      ]
+    }
+  },
+  // --- Container Lifecycle ---
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // Example: Forward port 8000 for a web server
+  "forwardPorts": [
+    8000
+  ],
+  // "forwardPorts": [8000, 3000], // Forward multiple ports
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // Useful for installing cargo extensions or project setup.
+  "postCreateCommand": "rustup update && cargo install cargo-watch cargo-edit",
+  // "postCreateCommand": "bash .devcontainer/post-create.sh", // Or run a script
+  // Use 'postAttachCommand' to run commands after VS Code attaches.
+  // "postAttachCommand": {
+  //   "server": "echo 'Attached to Rust Dev Container!'"
+  // }
+  // Comment out connectAsRoot=true to connect as the default non-root user 'vscode'.
+  // "remoteUser": "vscode" // Default non-root user created by base image
+  // "remoteUser": "root" // Connect as root (use with caution)
+  // --- Environment Variables ---
+  // Set environment variables for the container
+  // "remoteEnv": {
+  //   "MY_VARIABLE": "my_value"
+  // }
+}
