@@ -16,8 +16,8 @@
             pname = info.name;
             version = info.version;
             src = ./.;
-            cargoVendorDir = ./vendor;
-            
+            cargoVendorDir = /workspaces/tre/vendor;
+
             lockFile = ./Cargo.lock;
             nativeBuildInputs = [ installShellFiles ];
             preFixup = ''
