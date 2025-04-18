@@ -11,6 +11,7 @@ jobs:
     - uses: cachix/install-nix-action@v30
       with:
         nix_path: nixpkgs=channel:nixos-unstable
+    - run: cargo vendor > vendor.tar.gz
     - run: nix build
 
   macOS:
