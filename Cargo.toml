@@ -9,7 +9,14 @@ documentation = "https://github.com/dduan/tre/blob/master/README.md"
 readme = "README.md"
 homepage = "https://github.com/dduan/tre"
 repository = "https://github.com/dduan/tre"
-exclude = ["/.github/*", "alias_demo.gif", "flake.nix", "flake.lock", "scripts/*", "fixtures/*"]
+exclude = [
+    "/.github/*",
+    "alias_demo.gif",
+    "flake.nix",
+    "flake.lock",
+    "scripts/*",
+    "fixtures/*",
+]
 keywords = ["cli", "tool", "filesystem"]
 categories = ["command-line-utilities"]
 
@@ -20,18 +27,18 @@ getopts = "0.2"
 indexmap = "2.9.0"
 lscolors = "0.20"
 regex = "1.11.1"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
 slab = "0.4.9"
 termcolor = "1"
-walkdir = "2"
+walkdir = "2.5.0"
 
 [build-dependencies]
 clap = { version = "4.5.37", features = ["cargo"] }
 clap_complete = "4.5.47"
 
 [dev-dependencies]
-assert_cmd = "2.0"
+assert_cmd = "2.0.17"
 
 [[bin]]
 name = "tre"
