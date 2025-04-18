@@ -64,7 +64,7 @@
   // "forwardPorts": [8000, 3000], // Forward multiple ports
   // Use 'postCreateCommand' to run commands after the container is created.
   // Useful for installing cargo extensions or project setup.
-  "postCreateCommand": "rustup update && cargo install cargo-watch cargo-edit",
+  "postCreateCommand": "rustup update && cargo install cargo-watch cargo-edit cargo-outdated cargo-audit",
   // "postCreateCommand": "bash .devcontainer/post-create.sh", // Or run a script
   // Use 'postAttachCommand' to run commands after VS Code attaches.
   // "postAttachCommand": {
