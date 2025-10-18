@@ -16,9 +16,7 @@
             pname = info.name;
             version = info.version;
             src = ./.;
-            cargoVendorDir = /workspaces/tre/vendor;
-
-            lockFile = ./Cargo.lock;
+            cargoLock.lockFile = ./Cargo.lock;
             nativeBuildInputs = [ installShellFiles ];
             preFixup = ''
               installManPage manual/tre.1
