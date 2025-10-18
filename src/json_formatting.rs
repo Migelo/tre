@@ -30,12 +30,12 @@ enum SerializableTreeNode<'a> {
     Directory(Box<SerializableTreeDirectory<'a>>),
 }
 
-impl SerializableTreeNode<'_> {
-    pub fn new(tree: &FileTree) -> SerializableTreeNode {
+impl<'a> SerializableTreeNode<'a> {
+    pub fn new(tree: &'a FileTree) -> SerializableTreeNode<'a> {
         SerializableTreeNode::from(tree, &tree.storage[tree.root_id])
     }
 
-    fn from<'a>(tree: &'a FileTree, file: &'a File) -> SerializableTreeNode<'a> {
+    fn from(tree: &'a FileTree, file: &'a File) -> SerializableTreeNode<'a> {
         match &file.data {
             TypeSpecficData::File => SerializableTreeNode::File(SerializableTreeFile {
                 name: &file.display_name,
