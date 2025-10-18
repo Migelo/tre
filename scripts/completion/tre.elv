@@ -26,10 +26,6 @@ set edit:completion:arg-completer[tre] = {|@words|
             cand --exclude 'Exclude paths matching a regex pattern. Repeatable'
             cand -c 'When to color the output. `automatic` means when printing to a terminal, tre will include colors; otherwise it will disable colors'
             cand --color 'When to color the output. `automatic` means when printing to a terminal, tre will include colors; otherwise it will disable colors'
-            cand -h 'Print help information'
-            cand --help 'Print help information'
-            cand -V 'Print version information'
-            cand --version 'Print version information'
             cand -a 'Print all files and directories, including hidden ones'
             cand --all 'Print all files and directories, including hidden ones'
             cand -s 'Use normal print despite gitignore settings. ''-a'' has higher priority'
@@ -40,6 +36,10 @@ set edit:completion:arg-completer[tre] = {|@words|
             cand --json 'Output JSON instead of tree diagram'
             cand -p 'Generate portable (absolute) paths for editor aliases. By default, aliases use relative paths for better performance'
             cand --portable 'Generate portable (absolute) paths for editor aliases. By default, aliases use relative paths for better performance'
+            cand -h 'Print help'
+            cand --help 'Print help'
+            cand -V 'Print version'
+            cand --version 'Print version'
         }
     ]
     $completions[$command]

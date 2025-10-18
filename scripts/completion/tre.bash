@@ -1,15 +1,19 @@
 _tre() {
-    local i cur prev opts cmds
+    local i cur prev opts cmd
     COMPREPLY=()
-    cur="${COMP_WORDS[COMP_CWORD]}"
-    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    if [[ "${BASH_VERSINFO[0]}" -ge 4 ]]; then
+        cur="$2"
+    else
+        cur="${COMP_WORDS[COMP_CWORD]}"
+    fi
+    prev="$3"
     cmd=""
     opts=""
 
-    for i in ${COMP_WORDS[@]}
+    for i in "${COMP_WORDS[@]:0:COMP_CWORD}"
     do
-        case "${i}" in
-            "$1")
+        case "${cmd},${i}" in
+            ",$1")
                 cmd="tre"
                 ;;
             *)
@@ -19,7 +23,7 @@ _tre() {
 
     case "${cmd}" in
         tre)
-            opts="-h -V -a -s -d -e -j -l -E -c -p --help --version --all --simple --directories --editor --json --limit --exclude --color --portable <PATH>"
+            opts="-a -s -d -e -j -l -E -c -p -h -V --all --simple --directories --editor --json --limit --exclude --color --portable --help --version [PATH]"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -67,4 +71,8 @@ _tre() {
     esac
 }
 
-complete -F _tre -o bashdefault -o default tre
+if [[ "${BASH_VERSINFO[0]}" -eq 4 && "${BASH_VERSINFO[1]}" -ge 4 || "${BASH_VERSINFO[0]}" -gt 4 ]]; then
+    complete -F _tre -o nosort -o bashdefault -o default tre
+else
+    complete -F _tre -o bashdefault -o default tre
+fi

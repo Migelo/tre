@@ -14,19 +14,15 @@ _tre() {
     fi
 
     local context curcontext="$curcontext" state line
-    _arguments "${_arguments_options[@]}" \
-'-e+[Create aliases for each displayed result, and add a number in front of file name to indicate the alias name. For example, a number "42" means an shell alias "e42" has been created. Running "e42" will cause the associated file or directory to be open with $EDITOR (or a default program for the file type on Windows), or a command specified along with this command]:COMMAND: ' \
-'--editor=[Create aliases for each displayed result, and add a number in front of file name to indicate the alias name. For example, a number "42" means an shell alias "e42" has been created. Running "e42" will cause the associated file or directory to be open with $EDITOR (or a default program for the file type on Windows), or a command specified along with this command]:COMMAND: ' \
-'-l+[Limit depth of the tree in output]:LIMIT: ' \
-'--limit=[Limit depth of the tree in output]:LIMIT: ' \
-'*-E+[Exclude paths matching a regex pattern. Repeatable]:PATTERN: ' \
-'*--exclude=[Exclude paths matching a regex pattern. Repeatable]:PATTERN: ' \
-'-c+[When to color the output. `automatic` means when printing to a terminal, tre will include colors; otherwise it will disable colors]:WHEN:(automatic always never)' \
-'--color=[When to color the output. `automatic` means when printing to a terminal, tre will include colors; otherwise it will disable colors]:WHEN:(automatic always never)' \
-'-h[Print help information]' \
-'--help[Print help information]' \
-'-V[Print version information]' \
-'--version[Print version information]' \
+    _arguments "${_arguments_options[@]}" : \
+'-e+[Create aliases for each displayed result, and add a number in front of file name to indicate the alias name. For example, a number "42" means an shell alias "e42" has been created. Running "e42" will cause the associated file or directory to be open with \$EDITOR (or a default program for the file type on Windows), or a command specified along with this command]' \
+'--editor=[Create aliases for each displayed result, and add a number in front of file name to indicate the alias name. For example, a number "42" means an shell alias "e42" has been created. Running "e42" will cause the associated file or directory to be open with \$EDITOR (or a default program for the file type on Windows), or a command specified along with this command]' \
+'-l+[Limit depth of the tree in output]:LIMIT:_default' \
+'--limit=[Limit depth of the tree in output]:LIMIT:_default' \
+'*-E+[Exclude paths matching a regex pattern. Repeatable]:PATTERN:_default' \
+'*--exclude=[Exclude paths matching a regex pattern. Repeatable]:PATTERN:_default' \
+'-c+[When to color the output. \`automatic\` means when printing to a terminal, tre will include colors; otherwise it will disable colors]:WHEN:(automatic always never)' \
+'--color=[When to color the output. \`automatic\` means when printing to a terminal, tre will include colors; otherwise it will disable colors]:WHEN:(automatic always never)' \
 '-a[Print all files and directories, including hidden ones]' \
 '--all[Print all files and directories, including hidden ones]' \
 '-s[Use normal print despite gitignore settings. '\''-a'\'' has higher priority]' \
@@ -37,7 +33,11 @@ _tre() {
 '--json[Output JSON instead of tree diagram]' \
 '-p[Generate portable (absolute) paths for editor aliases. By default, aliases use relative paths for better performance]' \
 '--portable[Generate portable (absolute) paths for editor aliases. By default, aliases use relative paths for better performance]' \
-'::path:' \
+'-h[Print help]' \
+'--help[Print help]' \
+'-V[Print version]' \
+'--version[Print version]' \
+'::path:_default' \
 && ret=0
 }
 
@@ -47,4 +47,8 @@ _tre_commands() {
     _describe -t commands 'tre commands' commands "$@"
 }
 
-_tre "$@"
+if [ "$funcstack[1]" = "_tre" ]; then
+    _tre "$@"
+else
+    compdef _tre tre
+fi
