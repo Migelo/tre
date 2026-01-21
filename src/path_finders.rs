@@ -1,4 +1,5 @@
 use crate::file_tree::FileType;
+use std::collections::HashSet;
 use std::process::Command;
 use std::{fs, path};
 use walkdir::{DirEntry, WalkDir};
@@ -95,9 +96,14 @@ pub fn find_non_git_ignored_paths(
     if let Ok(git_output) = git_command.output() {
         if git_output.status.success() {
             if let Ok(paths_buf) = String::from_utf8(git_output.stdout) {
+                // When max_depth truncates paths, we may get duplicates - deduplicate them
+                let mut seen = HashSet::new();
                 return paths_buf
                     .split('\n')
                     .filter_map(|p| {
+                        if p.is_empty() {
+                            return None;
+                        }
                         let path_string = if max_depth != usize::MAX {
                             path::Path::new(p)
                                 .components()
@@ -110,6 +116,10 @@ pub fn find_non_git_ignored_paths(
                         } else {
                             p.to_string()
                         };
+                        // Skip if we've already seen this path (happens when depth-truncated)
+                        if !seen.insert(path_string.clone()) {
+                            return None;
+                        }
                         fs::metadata(&path_string)
                             .map(|m| (path_string, FileType::new(m)))
                             .ok()

@@ -1,51 +1,47 @@
 use super::diagram_formatting::FormattedEntry;
 use lscolors::{self, LsColors, Style};
 use std::env;
-use std::fmt::Display;
 use std::fs::File;
 use std::io::{self, Write};
 use std::path::PathBuf;
 use termcolor::{BufferWriter, Color, ColorChoice, ColorSpec, WriteColor};
 
-fn color_print<T>(text: T, color: Option<&ColorSpec>) -> bool
-where
-    T: Display,
-{
-    if let Some(color_spec) = color {
-        let stdout = BufferWriter::stdout(ColorChoice::Auto);
-        let mut buffer = stdout.buffer();
-        buffer
-            .set_color(color_spec)
-            .and_then(|_| write!(&mut buffer, "{}", text))
-            .and_then(|_| buffer.reset())
-            .and_then(|_| stdout.print(&buffer))
-            .is_ok()
-    } else {
-        print!("{}", text);
-        true
-    }
-}
-
 pub fn print_entries(entries: &[FormattedEntry], create_alias: bool, lscolors: Option<&LsColors>) {
+    let stdout = BufferWriter::stdout(ColorChoice::Auto);
+    let mut buffer = stdout.buffer();
     let number_color = lscolors.map(|_| ColorSpec::new().set_fg(Some(Color::Red)).to_owned());
+    
     for (index, entry) in entries.iter().enumerate() {
         if create_alias {
-            print!("{}[", entry.prefix);
-
-            color_print(index, number_color.as_ref());
-            print!("] ");
+            let _ = write!(&mut buffer, "{}[", entry.prefix);
+            if let Some(ref color_spec) = number_color {
+                let _ = buffer.set_color(color_spec);
+            }
+            let _ = write!(&mut buffer, "{}", index);
+            if number_color.is_some() {
+                let _ = buffer.reset();
+            }
+            let _ = write!(&mut buffer, "] ");
         } else {
-            print!("{}", entry.prefix);
+            let _ = write!(&mut buffer, "{}", entry.prefix);
         }
 
-        let spec = lscolors.map(|c| {
-            c.style_for_path(&entry.path)
-                .map(convert_to_color_spec)
-                .unwrap_or_default()
-        });
-        color_print(&entry.name, spec.as_ref());
-        println!()
+        if let Some(lsc) = lscolors {
+            let spec = lsc.style_for_path(&entry.path)
+                .map(|s| convert_to_color_spec(s));
+            if let Some(ref color_spec) = spec {
+                let _ = buffer.set_color(color_spec);
+            }
+            let _ = write!(&mut buffer, "{}", entry.name);
+            if spec.is_some() {
+                let _ = buffer.reset();
+            }
+        } else {
+            let _ = write!(&mut buffer, "{}", entry.name);
+        }
+        let _ = writeln!(&mut buffer);
     }
+    let _ = stdout.print(&buffer);
 }
 
 fn convert_color(color: &lscolors::Color) -> Color {

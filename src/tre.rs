@@ -90,8 +90,7 @@ pub fn run(option: RunOptions) {
         paths
             .into_iter()
             .filter(|(path, _)| {
-                let mut pattern_iters = option.exclude_patterns.iter();
-                !pattern_iters.any(|p| p.is_match(path))
+                !option.exclude_patterns.iter().any(|p| p.is_match(path))
             })
             .collect()
     };

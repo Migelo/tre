@@ -103,7 +103,7 @@ impl File {
 }
 
 pub struct FileTree {
-    pub storage: Slab<Box<File>>,
+    pub storage: Slab<File>,
     pub root_id: usize,
 }
 
@@ -118,14 +118,14 @@ impl FileTree {
             .filter(|c| !matches!(c, Component::CurDir))
             .count();
 
-        let root = Box::new(File {
+        let root = File {
             id: root_id,
             parent: None,
             display_name: root_path.to_string(),
             path: root_path.to_string(),
             file_type: FileType::Directory,
             data: TypeSpecficData::Directory(IndexMap::new()),
-        });
+        };
         root_entry.insert(root);
 
         for (path, meta) in children {
@@ -166,14 +166,14 @@ impl FileTree {
                 } else {
                     let new_entry = slab.vacant_entry();
                     let new_id = new_entry.key();
-                    new_entry.insert(Box::new(File {
+                    new_entry.insert(File {
                         id: new_id,
                         parent: Some(current_acestor_id),
                         display_name: display_name.clone(),
                         path: current_ancestor_path.to_string_lossy().into_owned(),
                         file_type: FileType::Directory,
                         data: TypeSpecficData::Directory(IndexMap::new()),
-                    }));
+                    });
                     slab[current_acestor_id].add_child(&display_name, new_id);
                     current_acestor_id = new_id;
                 }
@@ -182,14 +182,14 @@ impl FileTree {
             // Finally, insert the node.
             let new_entry = slab.vacant_entry();
             let new_id = new_entry.key();
-            new_entry.insert(Box::new(File {
+            new_entry.insert(File {
                 id: new_id,
                 parent: Some(current_acestor_id),
                 display_name: path_name.clone(),
                 path,
                 file_type: meta,
                 data,
-            }));
+            });
             slab[current_acestor_id].add_child(&path_name, new_id);
         }
 

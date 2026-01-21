@@ -19,7 +19,8 @@ pub struct FormattedEntry {
 }
 
 fn make_prefix(tree: &FileTree, file: &File, format_history: &HashMap<usize, usize>) -> String {
-    let mut segments = Vec::new();
+    // Pre-allocate with a reasonable depth estimate
+    let mut segments = Vec::with_capacity(16);
     let mut current = file;
     if let Some(ancestor) = tree.get_parent(file) {
         let count = format_history.get(&ancestor.id).unwrap_or(&0);
@@ -42,14 +43,17 @@ fn make_prefix(tree: &FileTree, file: &File, format_history: &HashMap<usize, usi
     }
 
     segments.reverse();
-    segments.iter().fold(String::new(), |s, seg| {
-        s + match seg {
+    // Pre-allocate: each segment is 4 chars (UTF-8 box chars are 3 bytes + space = ~7 bytes each)
+    let mut result = String::with_capacity(segments.len() * 7);
+    for seg in &segments {
+        result.push_str(match seg {
             PrefixSegment::ShapeL => "└── ",
             PrefixSegment::ShapeT => "├── ",
             PrefixSegment::ShapeI => "│   ",
             PrefixSegment::Empty => "    ",
-        }
-    })
+        });
+    }
+    result
 }
 
 fn format_file(
@@ -101,10 +105,12 @@ pub fn format_paths(
     children: Vec<(String, FileType)>,
     make_absolute: bool,
 ) -> Vec<FormattedEntry> {
-    let mut history = HashMap::new();
-    let mut result = Vec::new();
+    let children_len = children.len();
     match FileTree::new(root_path, children) {
         Some(tree) => {
+            // Pre-allocate with estimated size (children + intermediate directories)
+            let mut history = HashMap::with_capacity(children_len / 4);
+            let mut result = Vec::with_capacity(children_len + children_len / 10 + 1);
             let root = tree.get_root();
             format_file(&tree, root, &mut history, &mut result, make_absolute);
             result
