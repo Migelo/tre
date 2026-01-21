@@ -28,6 +28,10 @@
           };
         };
         defaultPackage = packages.${info.name};
+        apps.default = {
+          type = "app";
+          program = "${packages.${info.name}}/bin/tre";
+        };
         devShell = pkgs.mkShell {
           buildInputs = [
             cargo
