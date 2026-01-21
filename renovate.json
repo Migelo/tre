@@ -8,7 +8,8 @@
     "enabled": true,
     "automerge": true,
     "automergeType": "pr",
-    "platformAutomerge": true
+    "platformAutomerge": true,
+    "schedule": ["on the first day of the month"]
   },
   "platformAutomerge": true,
   "packageRules": [
