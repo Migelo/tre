@@ -1,14 +1,13 @@
-use assert_cmd::prelude::CommandCargoExt;
 use std::env;
 use std::error;
 use std::fs;
 use std::path::PathBuf;
-use std::process;
+use std::process::Command;
 use std::str;
 
 #[test]
 fn respect_git_ignore() -> Result<(), Box<dyn error::Error>> {
-    let mut tre = process::Command::cargo_bin("tre")?;
+    let mut tre = Command::new(assert_cmd::cargo::cargo_bin!("tre"));
     let fixture_path: PathBuf = [env!("CARGO_MANIFEST_DIR"), "fixtures"].iter().collect();
     // this path is ignored by fixtures/.gitignore
     let ignored_path: PathBuf = [env!("CARGO_MANIFEST_DIR"), "fixtures", "ignore_me"]
@@ -35,7 +34,7 @@ fn respect_git_ignore() -> Result<(), Box<dyn error::Error>> {
 #[cfg(not(windows))]
 #[test]
 fn ignore_hidden() -> Result<(), Box<dyn error::Error>> {
-    let mut tre = process::Command::cargo_bin("tre")?;
+    let mut tre = Command::new(assert_cmd::cargo::cargo_bin!("tre"));
     let fixture_path: PathBuf = [env!("CARGO_MANIFEST_DIR"), "fixtures"].iter().collect();
     // this path is ignored by fixtures/.gitignore, but we aren't using .gitignore
     let ignored_path: PathBuf = [env!("CARGO_MANIFEST_DIR"), "fixtures", "ignore_me"]
@@ -61,7 +60,7 @@ fn ignore_hidden() -> Result<(), Box<dyn error::Error>> {
 
 #[test]
 fn all_files() -> Result<(), Box<dyn error::Error>> {
-    let mut tre = process::Command::cargo_bin("tre")?;
+    let mut tre = Command::new(assert_cmd::cargo::cargo_bin!("tre"));
     let fixture_path: PathBuf = [env!("CARGO_MANIFEST_DIR"), "fixtures"].iter().collect();
     // this path is ignored by fixtures/.gitignore, but we aren't using .gitignore
     let ignored_path: PathBuf = [env!("CARGO_MANIFEST_DIR"), "fixtures", "ignore_me"]
