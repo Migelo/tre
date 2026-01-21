@@ -33,7 +33,7 @@ Tre is available in the following package managers.
 | AUR / Arch Linux        | `yay -S tre-command`         |
 | pkgsrc / NetBSD 9.1+    | `pkgin install tre-command`  |
 | Nixpkgs / NixOS         | Use `tre-command`            |
-| Nix flake               | Use `github:dduan/tre`       |
+| Nix flake               | Use `github:Migelo/tre`       |
 
 _The commands above are basic instructions. Use your favorite alternatives if
 you have one. For example, use a config file for Nix; or other method to install
@@ -44,11 +44,11 @@ from AUR; pkgsrc can be use on OSes other than NetBSD etc._
 Choose an pre-built executable from the [release page][] that fits your
 platform to download. Unpack it somewhere you'd like to run it from.
 
-[release page]: https://github.com/dduan/tre/releases
+[release page]: https://github.com/Migelo/tre/releases
 
 ### From Source
 
-1. Clone this repository: `git clone https://github.com/dduan/tre.git`.
+1. Clone this repository: `git clone https://github.com/Migelo/tre.git`.
 2. Ensure you have Rust and Cargo installed. If not, follow instruction [here](https://rustup.rs).
 3. In the root level of this repo, run `cargo build --release`.
 4. Move `target/release/tre` to somewhere in your PATH environment variable.
