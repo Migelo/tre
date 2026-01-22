@@ -28,7 +28,7 @@ pub fn print_entries(entries: &[FormattedEntry], create_alias: bool, lscolors: O
 
         if let Some(lsc) = lscolors {
             let spec = lsc.style_for_path(&entry.path)
-                .map(|s| convert_to_color_spec(s));
+                .map(convert_to_color_spec);
             if let Some(ref color_spec) = spec {
                 let _ = buffer.set_color(color_spec);
             }
